@@ -13,6 +13,8 @@
 		9386F57219EC84F0005AC336 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9386F57119EC84F0005AC336 /* LoginViewController.m */; };
 		93BC251E19EC992A0072AFB7 /* ReplaceRootViewControllerSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 93BC251D19EC992A0072AFB7 /* ReplaceRootViewControllerSegue.m */; };
 		93BC252219ECAD820072AFB7 /* NSString+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 93BC252119ECAD820072AFB7 /* NSString+Additions.m */; };
+		93C6968C1A5F57B600A6C3B2 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93C6968A1A5F57B600A6C3B2 /* Crashlytics.framework */; };
+		93C6968D1A5F57B600A6C3B2 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93C6968B1A5F57B600A6C3B2 /* Fabric.framework */; };
 		93F1627919E97FC40031E7CB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 93F1627819E97FC40031E7CB /* main.m */; };
 		93F1627C19E97FC40031E7CB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 93F1627B19E97FC40031E7CB /* AppDelegate.m */; };
 		93F1627F19E97FC40031E7CB /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93F1627E19E97FC40031E7CB /* MasterViewController.m */; };
@@ -57,6 +59,8 @@
 		93BC251D19EC992A0072AFB7 /* ReplaceRootViewControllerSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReplaceRootViewControllerSegue.m; sourceTree = "<group>"; };
 		93BC252019ECAD820072AFB7 /* NSString+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Additions.h"; sourceTree = "<group>"; };
 		93BC252119ECAD820072AFB7 /* NSString+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Additions.m"; sourceTree = "<group>"; };
+		93C6968A1A5F57B600A6C3B2 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crashlytics.framework; path = Frameworks/Crashlytics.framework; sourceTree = SOURCE_ROOT; };
+		93C6968B1A5F57B600A6C3B2 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Fabric.framework; path = Frameworks/Fabric.framework; sourceTree = SOURCE_ROOT; };
 		93F1627319E97FC40031E7CB /* ToDoLite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToDoLite.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		93F1627719E97FC40031E7CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		93F1627819E97FC40031E7CB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -100,6 +104,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				93F162C819E982640031E7CB /* libc++.dylib in Frameworks */,
+				93C6968D1A5F57B600A6C3B2 /* Fabric.framework in Frameworks */,
+				93C6968C1A5F57B600A6C3B2 /* Crashlytics.framework in Frameworks */,
 				93F162C619E9824F0031E7CB /* libz.dylib in Frameworks */,
 				93F162C419E9822E0031E7CB /* libsqlite3.dylib in Frameworks */,
 				93F162C219E982160031E7CB /* SystemConfiguration.framework in Frameworks */,
@@ -123,6 +129,8 @@
 		936A28B219EE710800FE0206 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				93C6968A1A5F57B600A6C3B2 /* Crashlytics.framework */,
+				93C6968B1A5F57B600A6C3B2 /* Fabric.framework */,
 				936A28BB19EE74A300FE0206 /* CouchbaseLite.framework */,
 				936A28BC19EE74A300FE0206 /* FacebookSDK.framework */,
 				93F162C119E982160031E7CB /* SystemConfiguration.framework */,
@@ -254,6 +262,7 @@
 				93F1626F19E97FC40031E7CB /* Sources */,
 				93F1627019E97FC40031E7CB /* Frameworks */,
 				93F1627119E97FC40031E7CB /* Resources */,
+				93C696851A5F573700A6C3B2 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -339,6 +348,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		93C696851A5F573700A6C3B2 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Frameworks/Fabric.framework/run 777ded422d343e33f5361f098e867f07dde3bde8 65529c76389e4f04ec7d937fc11fb8b178174e1e17e074d6e77431b14cd6ecc7";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		93F1626F19E97FC40031E7CB /* Sources */ = {
@@ -488,6 +513,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks",
+					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = ToDoLite/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -505,6 +531,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks",
+					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = ToDoLite/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;

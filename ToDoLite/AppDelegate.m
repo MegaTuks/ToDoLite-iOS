@@ -12,6 +12,9 @@
 #import "Profile.h"
 #import "NSString+Additions.h"
 
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
+
 // Sync Gateway
 #define kSyncGatewayUrl @"http://demo.mobile.couchbase.com/todolite"
 #define kSyncGatewayWebSocketSupport NO
@@ -37,8 +40,9 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [self migrateOldVersionApp];
+    [Fabric with:@[CrashlyticsKit]];
     
+    [self migrateOldVersionApp];
     if ([self isFirstTimeUsed] || self.isGuestLoggedIn) {
         [self loginAsGuest];
     }
