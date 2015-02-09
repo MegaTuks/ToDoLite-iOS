@@ -20,20 +20,12 @@
     return kTaskDocType;
 }
 
-- (instancetype) initInList: (List*)list
-                  withTitle: (NSString*)title
-                  withImage: (NSData*)image
-       withImageContentType: (NSString*)contentType {
-    NSAssert(list, @"Task must have a list");
-    self = [super initInDatabase: list.document.database withTitle: title];
-    if (self) {
-        self.list_id = list;
-        
-        if (image) {
-            [self setAttachmentNamed:kTaskImageName withContentType:contentType content:image];
-        }
-    }
-    return self;
+- (void)awakeFromInitializer {
+    [super awakeFromInitializer];
+
+    // The "type" property identifies what type of document this is.
+    // It's used in map functions and by the CBLModelFactory.
+    [self setValue: [[self class] docType] ofProperty: @"type"];
 }
 
 - (void) setImage: (NSData*)image contentType: (NSString*)contentType {

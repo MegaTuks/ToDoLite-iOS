@@ -37,7 +37,7 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [self migrateOldVersionApp];
+    // [self migrateOldVersionApp];
     
     if ([self isFirstTimeUsed] || self.isGuestLoggedIn) {
         [self loginAsGuest];
@@ -141,53 +141,6 @@
 
 - (CBLDatabase *)databaseForGuest {
     return [self databaseForName:kGuestDBName];
-}
-
-#pragma mark - Migration
-
-- (void)migrateOldVersionApp {
-    NSString *mVer = [[NSUserDefaults standardUserDefaults] objectForKey:kMigrationVersion];
-    if (!mVer || [mVer compare:@"1.3" options:NSNumericSearch] == NSOrderedAscending) {
-        CBLManager *manager = [CBLManager sharedInstance];
-        CBLDatabase *todosDb = [manager existingDatabaseNamed:@"todos" error:nil];
-        if (!todosDb) {
-            return;
-        }
-        
-        if (todosDb.lastSequenceNumber > 0) {
-            NSString *userId = [[NSUserDefaults standardUserDefaults] objectForKey:@"CBLFBUserID"];
-            NSString *dbName;
-            if (userId) {
-                dbName = [self databaseNameForName:userId];
-            } else {
-                dbName = [self databaseNameForName:kGuestDBName];
-            }
-            
-            NSString *oldDbPath = [[manager directory] stringByAppendingPathComponent:@"todos.cblite"];
-            NSString *oldDbAttachmentPath = [[oldDbPath stringByDeletingPathExtension]
-                                             stringByAppendingString:@" attachments"];
-            NSError *error;
-            [manager replaceDatabaseNamed:dbName
-                         withDatabaseFile:oldDbPath
-                          withAttachments:oldDbAttachmentPath
-                                    error:&error];
-            if (error) {
-                NSLog(@"Cannot replace database when migrating the app to v1.3 with an error: %@",
-                      [error description]);
-            }
-        }
-        
-        NSError *error;
-        [todosDb deleteDatabase:&error];
-        if (error) {
-            NSLog(@"Cannot delete 'todos' database when migrating the app to v1.3 with an error: %@",
-                  [error description]);
-        }
-        
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"CBLFBUserID"];
-        [[NSUserDefaults standardUserDefaults] setObject:@"1.3" forKey:kMigrationVersion];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
 }
 
 #pragma mark - Replication
@@ -400,16 +353,9 @@
     CBLManager *manager = [CBLManager sharedInstance];
     CBLDatabase *guestDB = [self databaseForGuest];
     if (guestDB.lastSequenceNumber > 0) {
-        NSString *guestDBPath = [[manager directory] stringByAppendingPathComponent:
-                                 [NSString stringWithFormat:@"%@.cblite",
-                                  [self databaseNameForName:kGuestDBName]]];
-        NSString *guestAttPath = [[guestDBPath stringByDeletingPathExtension]
-                                  stringByAppendingString:@" attachments"];
+        NSString *guestDBPath = [[manager directory] stringByAppendingPathComponent: [self databaseNameForName:kGuestDBName]];
         NSError *error;
-        [manager replaceDatabaseNamed:userDB.name
-                     withDatabaseFile:guestDBPath
-                      withAttachments:guestAttPath
-                                error:&error];
+        [manager replaceDatabaseNamed:userDB.name withDatabaseDir:guestDBPath error:&error];
         if (error) {
             NSLog(@"Migrating guest data has an error : %@", [error description]);
         }
